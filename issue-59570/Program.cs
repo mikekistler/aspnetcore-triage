@@ -21,4 +21,9 @@ app.MapGet("/goodbye", async context =>
     await context.Response.WriteAsJsonAsync(new { Message = "Goodbye!" });
 }).WithDescription("Goodbye");
 
+app.MapGet("/howdy", async (HttpRequest request) =>
+{
+    await request.HttpContext.Response.WriteAsJsonAsync(new { Message = "Howdy y'all!" });
+}).WithDescription("Texan greeting");
+
 app.Run();

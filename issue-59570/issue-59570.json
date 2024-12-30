@@ -23,6 +23,19 @@
           }
         }
       }
+    },
+    "/howdy": {
+      "get": {
+        "tags": [
+          "issue-59570"
+        ],
+        "description": "Texan greeting",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": { },
