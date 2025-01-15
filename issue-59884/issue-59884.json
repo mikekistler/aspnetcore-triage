@@ -1,0 +1,63 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "issue-59884 | v1",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/has-metadata": {
+      "post": {
+        "tags": [
+          "Metadata"
+        ],
+        "summary": "Get metadata",
+        "description": "Get metadata for the current request.",
+        "operationId": "Metadata",
+        "requestBody": {
+          "content": {
+            "text/plain": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-metadata": {
+          "System.Reflection.RuntimeMethodInfo": "Microsoft.AspNetCore.Http.HttpResults.Ok`1[System.Collections.Generic.Dictionary`2[System.String,System.String]] <<Main>$>b__0_1(Microsoft.AspNetCore.Http.HttpRequest)",
+          "Microsoft.AspNetCore.Routing.HttpMethodMetadata": "HttpMethods: POST, Cors: False",
+          "Microsoft.AspNetCore.Http.Metadata.ParameterBindingMetadata": "Microsoft.AspNetCore.Http.Metadata.ParameterBindingMetadata",
+          "Microsoft.AspNetCore.Http.ProducesResponseTypeMetadata": "Produces StatusCode: 200, ContentTypes: application/json, Type: System.Collections.Generic.Dictionary`2[System.String,System.String]",
+          "Microsoft.AspNetCore.Routing.EndpointNameMetadata": "EndpointName: Metadata",
+          "Microsoft.AspNetCore.Routing.RouteNameMetadata": "RouteName: Metadata",
+          "Microsoft.AspNetCore.Http.EndpointDescriptionAttribute": "Description: Get metadata for the current request.",
+          "Microsoft.AspNetCore.Http.EndpointSummaryAttribute": "Summary: Get metadata",
+          "Microsoft.AspNetCore.Http.TagsAttribute": "Tags: Metadata",
+          "Microsoft.AspNetCore.Http.Metadata.AcceptsMetadata": "Accepts ContentTypes: text/plain, RequestType: System.String, IsOptional: False",
+          "Microsoft.AspNetCore.Routing.RouteEndpointBuilder+RouteDiagnosticsMetadata": "Route: /has-metadata"
+        }
+      }
+    }
+  },
+  "components": { },
+  "tags": [
+    {
+      "name": "Metadata"
+    }
+  ]
+}
