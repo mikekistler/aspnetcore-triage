@@ -1,6 +1,12 @@
-@issue_59770_HostAddress = http://localhost:5043
+@HostAddress = http://localhost:5043
 
-GET {{issue_59770_HostAddress}}/weatherforecast/
+POST {{HostAddress}}/bug
 Accept: application/json
+Content-Type: application/application/octet-stream
+
+{
+  "title": "Bug",
+  "description": "This is the stream body"
+}
 
 ###
