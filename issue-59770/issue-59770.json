@@ -5,12 +5,12 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/bug": {
+    "/stream-param": {
       "post": {
         "tags": [
           "issue-59770"
         ],
-        "operationId": "bug",
+        "operationId": "stream-param",
         "requestBody": {
           "content": {
             "application/octet-stream": {
@@ -23,7 +23,14 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }

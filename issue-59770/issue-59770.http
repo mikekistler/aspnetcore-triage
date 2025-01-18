@@ -1,12 +1,9 @@
 @HostAddress = http://localhost:5043
 
-POST {{HostAddress}}/bug
+POST {{HostAddress}}/stream-param
 Accept: application/json
 Content-Type: application/application/octet-stream
 
-{
-  "title": "Bug",
-  "description": "This is the stream body"
-}
+This is the stream body
 
 ###
