@@ -5,22 +5,39 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/weatherforecast": {
+    "/turtle-events": {
       "get": {
         "tags": [
           "issue-59969"
         ],
-        "operationId": "GetWeatherForecast",
+        "operationId": "GetTurtleEvents",
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
+                  "$ref": "#/components/schemas/GetTurtleEventsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bear-events": {
+      "get": {
+        "tags": [
+          "issue-59969"
+        ],
+        "operationId": "GetBearEvents",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetBearEventsResponse"
                 }
               }
             }
@@ -31,29 +48,129 @@
   },
   "components": {
     "schemas": {
-      "WeatherForecast": {
+      "BearEvent": {
         "required": [
-          "date",
-          "temperatureC",
-          "summary"
+          "$type"
+        ],
+        "type": "object",
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/TurtleEventAdded"
+          },
+          {
+            "$ref": "#/components/schemas/BearEventAngered"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "$type",
+          "mapping": {
+            "added": "#/components/schemas/BearEventAdded",
+            "angered": "#/components/schemas/BearEventAngered"
+          }
+        }
+      },
+      "BearEventAngered": {
+        "required": [
+          "timestamp"
+        ],
+        "properties": {
+          "$type": {
+            "enum": [
+              "angered"
+            ],
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "GetBearEventsResponse": {
+        "required": [
+          "events"
         ],
         "type": "object",
         "properties": {
-          "date": {
-            "type": "string",
-            "format": "date"
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BearEvent"
+            }
+          }
+        }
+      },
+      "GetTurtleEventsResponse": {
+        "required": [
+          "events"
+        ],
+        "type": "object",
+        "properties": {
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TurtleEvent"
+            }
+          }
+        }
+      },
+      "TurtleEvent": {
+        "required": [
+          "$type"
+        ],
+        "type": "object",
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/TurtleEventAdded"
           },
-          "temperatureC": {
+          {
+            "$ref": "#/components/schemas/TurtleEventSlowedDown"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "$type",
+          "mapping": {
+            "added": "#/components/schemas/TurtleEventAdded",
+            "slowedDown": "#/components/schemas/TurtleEventSlowedDown"
+          }
+        }
+      },
+      "TurtleEventAdded": {
+        "required": [
+          "id",
+          "timestamp"
+        ],
+        "properties": {
+          "$type": {
+            "enum": [
+              "added"
+            ],
+            "type": "string"
+          },
+          "id": {
             "type": "integer",
             "format": "int32"
           },
-          "summary": {
+          "timestamp": {
             "type": "string",
-            "nullable": true
+            "format": "date-time"
+          }
+        }
+      },
+      "TurtleEventSlowedDown": {
+        "required": [
+          "timestamp"
+        ],
+        "properties": {
+          "$type": {
+            "enum": [
+              "slowedDown"
+            ],
+            "type": "string"
           },
-          "temperatureF": {
-            "type": "integer",
-            "format": "int32"
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       }

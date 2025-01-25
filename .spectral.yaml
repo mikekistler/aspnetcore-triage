@@ -1,0 +1,4 @@
+extends: spectral:oas
+rules:
+  info-cpntact: off
+  oas3-api-servers: off
