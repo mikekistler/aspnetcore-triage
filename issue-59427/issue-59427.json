@@ -5,50 +5,18 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/weatherforecast": {
-      "get": {
-        "tags": [
-          "issue-59427"
-        ],
-        "operationId": "GetWeatherForecasts",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
+    "/location": {
       "post": {
         "tags": [
           "issue-59427"
         ],
-        "operationId": "CreateWeatherForecast",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/WeatherForecast2"
-              }
-            }
-          },
-          "required": true
-        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WeatherForecast2"
+                  "$ref": "#/components/schemas/LocationDto"
                 }
               }
             }
@@ -67,14 +35,6 @@
           }
         }
       },
-      "AddressDto2": {
-        "type": "object",
-        "properties": {
-          "relatedLocation": {
-            "$ref": "#/components/schemas/LocationDto4"
-          }
-        }
-      },
       "LocationDto": {
         "type": "object",
         "properties": {
@@ -87,39 +47,7 @@
         "type": "object",
         "properties": {
           "address": {
-            "$ref": "#/components/schemas/#/items/properties/location/properties/address"
-          }
-        }
-      },
-      "LocationDto3": {
-        "type": "object",
-        "properties": {
-          "address": {
-            "$ref": "#/components/schemas/AddressDto2"
-          }
-        }
-      },
-      "LocationDto4": {
-        "type": "object",
-        "properties": {
-          "address": {
-            "$ref": "#/components/schemas/#/properties/location/properties/address"
-          }
-        }
-      },
-      "WeatherForecast": {
-        "type": "object",
-        "properties": {
-          "location": {
-            "$ref": "#/components/schemas/LocationDto"
-          }
-        }
-      },
-      "WeatherForecast2": {
-        "type": "object",
-        "properties": {
-          "location": {
-            "$ref": "#/components/schemas/LocationDto3"
+            "$ref": "#/components/schemas/#/properties/address"
           }
         }
       }

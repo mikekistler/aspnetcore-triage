@@ -14,26 +14,32 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/weatherforecast", () =>
-{
-    return Enumerable.Empty<WeatherForecast>();
-})
-.Produces<IEnumerable<WeatherForecast>>()
-.WithName("GetWeatherForecasts");
+// app.MapGet("/weatherforecast", () =>
+// {
+//     return Enumerable.Empty<WeatherForecast>();
+// })
+// .Produces<IEnumerable<WeatherForecast>>()
+// .WithName("GetWeatherForecasts");
 
-app.MapPost("/weatherforecast", (WeatherForecast weatherForecast) =>
+// app.MapPost("/weatherforecast", (WeatherForecast weatherForecast) =>
+// {
+//     return weatherForecast;
+// })
+// .Produces<WeatherForecast>()
+// .WithName("CreateWeatherForecast");
+
+app.MapPost("/location", () =>
 {
-    return weatherForecast;
+    return new LocationDto();
 })
-.Produces<WeatherForecast>()
-.WithName("CreateWeatherForecast");
+.Produces<LocationDto>();
 
 app.Run();
 
-public class WeatherForecast
-{
-    public LocationDto Location { get; set; }
-}
+// public class WeatherForecast
+// {
+//     public LocationDto Location { get; set; }
+// }
 
 public class LocationDto
 {

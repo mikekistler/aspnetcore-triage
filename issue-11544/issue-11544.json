@@ -1,0 +1,88 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "issue-11544 | v1",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/test/{p}": {
+      "get": {
+        "tags": [
+          "issue-11544"
+        ],
+        "parameters": [
+          {
+            "name": "p",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnonymousTypeOfstringAndstringAndPathString"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AnonymousTypeOfstringAndstringAndPathString": {
+        "required": [
+          "p",
+          "q",
+          "path"
+        ],
+        "type": "object",
+        "properties": {
+          "p": {
+            "type": "string",
+            "nullable": true
+          },
+          "q": {
+            "type": "string",
+            "nullable": true
+          },
+          "path": {
+            "$ref": "#/components/schemas/PathString"
+          }
+        }
+      },
+      "PathString": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "hasValue": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "issue-11544"
+    }
+  ]
+}
