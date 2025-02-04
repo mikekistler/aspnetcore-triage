@@ -1,6 +1,32 @@
-@issue_11544_mvc_HostAddress = http://localhost:5075
+@HostAddress = http://localhost:5075
 
-GET {{issue_11544_mvc_HostAddress}}/weatherforecast/
+GET {{HostAddress}}/test/foo%2fbar?q=foo%2fbar
 Accept: application/json
 
 ###
+
+# Tests inspired by this comment:
+# https://github.com/dotnet/aspnetcore/issues/30655#issue-822362975
+
+GET {{HostAddress}}/test/test%24?q=test%24
+Accept: application/json
+
+###
+
+GET {{HostAddress}}/test/test%24aa?q=test%24aa
+Accept: application/json
+
+###
+
+GET {{HostAddress}}/test/test%25a?q=test%25a
+Accept: application/json
+
+###
+
+GET {{HostAddress}}/test/test%25aa?q=test%25aa
+Accept: application/json
+
+###
+
+GET {{HostAddress}}/test/test%20aa?q=test%20aa
+Accept: application/json
