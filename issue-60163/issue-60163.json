@@ -5,21 +5,20 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/weatherforecast": {
+    "/bug": {
       "get": {
         "tags": [
           "issue-60163"
         ],
-        "operationId": "GetWeatherForecast",
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
+                  "type": "object",
+                  "additionalProperties": {
+                    "$ref": "#/components/schemas/ErrorDetail"
                   }
                 }
               }
@@ -31,29 +30,14 @@
   },
   "components": {
     "schemas": {
-      "WeatherForecast": {
-        "required": [
-          "date",
-          "temperatureC",
-          "summary"
-        ],
+      "ErrorDetail": {
         "type": "object",
         "properties": {
-          "date": {
-            "type": "string",
-            "format": "date"
+          "message": {
+            "type": "string"
           },
-          "temperatureC": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "summary": {
-            "type": "string",
-            "nullable": true
-          },
-          "temperatureF": {
-            "type": "integer",
-            "format": "int32"
+          "code": {
+            "type": "string"
           }
         }
       }
