@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -33,9 +35,21 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast");
 
+app.MapGet("/foo", () => new Foo[] { new Bar(1), new Baz("2") });
+
+app.MapGet("/bar", () => new Bar[] { new Bar(1) });
+
+app.MapGet("/baz", () => new Foo[] { new Baz("2") });
+
 app.Run();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }
+
+[JsonDerivedType(typeof(Bar), "bar")]
+[JsonDerivedType(typeof(Baz), "baz")]
+public abstract record Foo;
+public record Bar(int Value) : Foo;
+public record Baz(string Name) : Foo;

@@ -27,10 +27,142 @@
           }
         }
       }
+    },
+    "/foo": {
+      "get": {
+        "tags": [
+          "issue-60469"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Foo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bar": {
+      "get": {
+        "tags": [
+          "issue-60469"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Bar"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/baz": {
+      "get": {
+        "tags": [
+          "issue-60469"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Foo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "Bar": {
+        "required": [
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "Foo": {
+        "required": [
+          "$type"
+        ],
+        "type": "object",
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/FooBar"
+          },
+          {
+            "$ref": "#/components/schemas/FooBaz"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "$type",
+          "mapping": {
+            "bar": "#/components/schemas/FooBar",
+            "baz": "#/components/schemas/FooBaz"
+          }
+        }
+      },
+      "FooBar": {
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "$type": {
+            "enum": [
+              "bar"
+            ],
+            "type": "string"
+          },
+          "value": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "FooBaz": {
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "$type": {
+            "enum": [
+              "baz"
+            ],
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
       "WeatherForecast": {
         "required": [
           "date",
