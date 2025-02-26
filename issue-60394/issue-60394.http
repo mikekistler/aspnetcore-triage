@@ -1,6 +1,6 @@
-@issue_60394_HostAddress = http://localhost:5091
+@HostAddress = http://localhost:5091
 
-GET {{issue_60394_HostAddress}}/weatherforecast/
+GET {{HostAddress}}/api/talks/404
 Accept: application/json
 
 ###
