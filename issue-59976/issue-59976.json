@@ -1,0 +1,85 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "issue-59976 | v1",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/test": {
+      "put": {
+        "tags": [
+          "issue-59976"
+        ],
+        "operationId": "GetWeatherForecast",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MsgMovimentacaoLocaisTrabalho"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "InfoGeral": {
+        "type": "object",
+        "properties": {
+          "guidDirecao": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "locais": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        }
+      },
+      "InfoGeral2": {
+        "type": "object",
+        "properties": {
+          "guidDirecao": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "locais": {
+            "$ref": "#/components/schemas/#/properties/locaisRemover/items/properties/locais"
+          }
+        },
+        "nullable": true
+      },
+      "MsgMovimentacaoLocaisTrabalho": {
+        "type": "object",
+        "properties": {
+          "locaisRemover": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InfoGeral"
+            },
+            "nullable": true
+          },
+          "locaisAssociar": {
+            "$ref": "#/components/schemas/InfoGeral2"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "issue-59976"
+    }
+  ]
+}
