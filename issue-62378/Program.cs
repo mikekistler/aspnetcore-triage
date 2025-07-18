@@ -1,41 +1,26 @@
-var builder = WebApplication.CreateBuilder(args);
+using System.Text.Json.Serialization;
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+app.MapOpenApi();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
-
-app.UseHttpsRedirection();
-
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+app.MapGet("/Pet", () => Enumerable.Empty<Pet>).WithName("Pet").Produces<Pet[]>();
+app.MapGet("/Shape", () => Enumerable.Empty<Shape>).WithName("Shape").Produces<Shape[]>();
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
+[JsonPolymorphic]
+[JsonDerivedType(typeof(Cat), "cat")]
+[JsonDerivedType(typeof(Dog), "dog")]
+public record Pet(string Name);
+public record Dog(string Name, string? Breed) : Pet(Name);
+public record Cat(string Name, int? Lives) : Pet(Name);
+
+[JsonPolymorphic]
+[JsonDerivedType(typeof(Rectangle), "Rectangle")]
+[JsonDerivedType(typeof(Circle), "Circle")]
+public record Shape();
+public record Rectangle(int Width, int Height) : Shape();
+public record Circle(int Radius) : Shape();

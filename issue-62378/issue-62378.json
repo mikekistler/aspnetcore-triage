@@ -1,0 +1,136 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "issue-62378 | v1",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/Pet": {
+      "get": {
+        "tags": [
+          "issue-62378"
+        ],
+        "operationId": "Pet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Pet"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Shape": {
+      "get": {
+        "tags": [
+          "issue-62378"
+        ],
+        "operationId": "Shape",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Shape"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Pet": {
+        "type": "object",
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/PetCat"
+          },
+          {
+            "$ref": "#/components/schemas/PetDog"
+          },
+          {
+            "$ref": "#/components/schemas/PetBase"
+          }
+        ]
+      },
+      "PetBase": {
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "PetCat": {
+        "required": [
+          "$type",
+          "lives",
+          "name"
+        ],
+        "properties": {
+          "$type": {
+            "enum": [
+              "cat"
+            ],
+            "type": "string"
+          },
+          "lives": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "PetDog": {
+        "required": [
+          "$type",
+          "breed",
+          "name"
+        ],
+        "properties": {
+          "$type": {
+            "enum": [
+              "dog"
+            ],
+            "type": "string"
+          },
+          "breed": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Shape": {
+        "type": "object"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "issue-62378"
+    }
+  ]
+}
