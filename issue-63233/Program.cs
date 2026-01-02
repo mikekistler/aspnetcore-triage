@@ -11,6 +11,9 @@ var app = builder.Build();
 
 app.MapOpenApi();
 app.MapControllers();
+
+// app.MapGet("/weatherforecast", ResponseBody () => throw new NotImplementedException());
+
 app.Run();
 
 [ApiController]
@@ -33,14 +36,17 @@ class Transformer : IOpenApiSchemaTransformer
         OpenApiSchemaTransformerContext context,
         CancellationToken               cancellationToken)
     {
-        schema.AnyOf =
-        [
-            new OpenApiSchema
-            {
-                Type       = "object",
-                Properties = new Dictionary<string, OpenApiSchema> { ["something"] = new() { Type = "string" } }
-            },
-        ];
+        if (context.JsonTypeInfo.Type == typeof(ResponseBody))
+        {
+            schema.AnyOf =
+            [
+                new OpenApiSchema
+                {
+                    Type       = "object",
+                    // Properties = new Dictionary<string, OpenApiSchema> { ["optionalProperty"] = new() { Type = "string" } }
+                },
+            ];
+        }
 
         return Task.CompletedTask;
     }

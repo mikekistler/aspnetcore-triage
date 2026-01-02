@@ -1,6 +1,11 @@
-@issue_64521_HostAddress = http://localhost:5152
+@HostAddress = http://localhost:5152
 
-GET {{issue_64521_HostAddress}}/weatherforecast/
+GET {{HostAddress}}/openapi/v1.json
+Accept: application/json
+
+###
+
+GET {{HostAddress}}/weatherforecast/foo
 Accept: application/json
 
 ###
