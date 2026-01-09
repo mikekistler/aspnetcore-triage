@@ -1,41 +1,62 @@
+using System.Text.Json;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<JsonExceptionHandler>();
+
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+app.UseStatusCodePages();
+app.UseExceptionHandler();
 
-app.UseHttpsRedirection();
-
-var summaries = new[]
+app.MapOpenApi();
+app.UseSwaggerUI(options =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    options.SwaggerEndpoint("/openapi/v1.json", "v1");
+    options.RoutePrefix = string.Empty;
+});
 
-app.MapGet("/weatherforecast", () =>
+app.MapPost("/api/ping", (PingSource source) =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+    return TypedResults.Ok(source);
+});
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+public record class PingSource(string Value);
+
+public class JsonExceptionHandler(IProblemDetailsService problemDetailsService) : IExceptionHandler
 {
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
+    {
+        // Only handle JsonException, let other exceptions be handled by other handlers
+        if (exception.InnerException is not JsonException jsonException)
+        {
+            return false;
+        }
+
+        Dictionary<string, string[]>? errors = new() { { jsonException.Path ?? string.Empty, new[] { jsonException.Message } } };
+
+        var problemDetails = new ValidationProblemDetails(errors)
+        {
+            Type = "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+            Status = StatusCodes.Status400BadRequest,
+            Title = "One or more validation errors occurred."
+        };
+
+        var context = new ProblemDetailsContext
+        {
+            HttpContext = httpContext,
+            ProblemDetails = problemDetails,
+            Exception = exception
+        };
+
+        httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+        return await problemDetailsService.TryWriteAsync(context);
+    }
 }
