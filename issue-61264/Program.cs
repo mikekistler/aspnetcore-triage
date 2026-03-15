@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi;
 
@@ -19,6 +20,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapGet("/", () => "Hello world!");
+
+app.MapGet("/public", () => "This is a public endpoint.").AllowAnonymous();
 
 app.Run();
 
@@ -43,9 +46,28 @@ internal sealed class BearerSecuritySchemeTransformer(IAuthenticationSchemeProvi
             document.Components.SecuritySchemes = securitySchemes;
 
             var schemeRef = new OpenApiSecuritySchemeReference("Bearer", document);
-            foreach (var pathItem in document.Paths.Values)
+
+            // Collect relative paths of endpoints that allow anonymous access
+            var anonymousPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var group in context.DescriptionGroups)
             {
-                foreach (var operation in pathItem.Operations!.Values)
+                foreach (var apiDesc in group.Items)
+                {
+                    if (apiDesc.ActionDescriptor.EndpointMetadata.OfType<IAllowAnonymous>().Any())
+                    {
+                        anonymousPaths.Add("/" + apiDesc.RelativePath);
+                    }
+                }
+            }
+
+            foreach (var (path, pathItem) in document.Paths)
+            {
+                if (anonymousPaths.Contains(path))
+                {
+                    continue;
+                }
+
+                foreach (var (_, operation) in pathItem.Operations!)
                 {
                     operation.Security ??= new List<OpenApiSecurityRequirement>();
                     operation.Security.Add(new OpenApiSecurityRequirement
