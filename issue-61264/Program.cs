@@ -41,6 +41,19 @@ internal sealed class BearerSecuritySchemeTransformer(IAuthenticationSchemeProvi
             };
             document.Components ??= new OpenApiComponents();
             document.Components.SecuritySchemes = securitySchemes;
+
+            var schemeRef = new OpenApiSecuritySchemeReference("Bearer", document);
+            foreach (var pathItem in document.Paths.Values)
+            {
+                foreach (var operation in pathItem.Operations!.Values)
+                {
+                    operation.Security ??= new List<OpenApiSecurityRequirement>();
+                    operation.Security.Add(new OpenApiSecurityRequirement
+                    {
+                        [schemeRef] = new List<string>()
+                    });
+                }
+            }
         }
     }
 }
