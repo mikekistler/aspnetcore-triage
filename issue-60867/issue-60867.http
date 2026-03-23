@@ -1,6 +1,18 @@
-@issue_60867_HostAddress = http://localhost:5274
+@HostAddress = http://localhost:5274
 
-GET {{issue_60867_HostAddress}}/weatherforecast/
+GET {{HostAddress}}/openapi/v1.json
 Accept: application/json
+
+###
+
+POST {{HostAddress}}/Upload/image-to-data
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="sample.txt"
+Content-Type: text/plain
+
+hello
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 ###
