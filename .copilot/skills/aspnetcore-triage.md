@@ -39,7 +39,6 @@ Run the following commands from the repository root:
 
 ```bash
 dotnet new <template> -o issue-<number>
-dotnet sln aspnetcore-issue-repros.sln add issue-<number>/issue-<number>.csproj
 ```
 
 Where `<number>` is the issue number and `<template>` is from Step 2.
@@ -65,7 +64,19 @@ Modify the scaffolded project to demonstrate the issue:
 - If the issue is about OpenAPI, keep the `app.MapOpenApi()` call and add endpoints that demonstrate the problem.
 - Create or update the `.http` file (`issue-<number>.http`) with sample requests that exercise the repro endpoints.
 
-### Step 6: Build and verify
+### Step 6: Write a README
+
+Create a `README.md` in the `issue-<number>/` directory with the following sections:
+
+- **Title**: `Issue <number>: <issue title>`
+- **Problem**: A clear description of the bug or feature request, in your own words.
+- **Repro**: How to run the repro project and what to observe (include a table of requests/expected/actual if applicable).
+- **Root Cause**: Your analysis of why the issue occurs — trace it to the relevant code paths or architectural decisions. Link to related issues if you find any.
+- **Analysis of Potential Solutions**: Enumerate 2–4 potential approaches to fix the issue. For each, describe the approach, list pros (✅) and cons (❌), and end with a recommendation.
+
+Search for related issues in dotnet/aspnetcore to provide context and cross-references.
+
+### Step 7: Build and verify
 
 Run `dotnet build` on the project to ensure it compiles:
 
@@ -75,10 +86,10 @@ dotnet build issue-<number>/issue-<number>.csproj
 
 Fix any compilation errors before proceeding.
 
-### Step 7: Git commit
+### Step 8: Git commit
 
 ```bash
-git add issue-<number> aspnetcore-issue-repros.sln
+git add issue-<number>
 git commit -m "Add repro for dotnet/aspnetcore#<number>"
 ```
 
