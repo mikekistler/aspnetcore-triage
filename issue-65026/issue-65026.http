@@ -17,3 +17,9 @@ GET {{issue_65026_HostAddress}}/enum-value?test=MyValue
 Accept: application/json
 
 ###
+
+# WORKAROUND: Using JsonParsable<T> wrapper - kebab-case now works
+GET {{issue_65026_HostAddress}}/enum-value-workaround?test=my-value
+Accept: application/json
+
+###
