@@ -18,6 +18,22 @@ Accept: application/json
 
 ###
 
+# POST with form field using kebab-case as documented in OpenAPI spec - returns 400 (BUG)
+POST {{issue_65026_HostAddress}}/enum-form
+Content-Type: application/x-www-form-urlencoded
+
+test=my-value
+
+###
+
+# POST with form field using PascalCase - works but doesn't match the spec
+POST {{issue_65026_HostAddress}}/enum-form
+Content-Type: application/x-www-form-urlencoded
+
+test=MyValue
+
+###
+
 # WORKAROUND: Using JsonParsable<T> wrapper - kebab-case now works
 GET {{issue_65026_HostAddress}}/enum-value-workaround?test=my-value
 Accept: application/json

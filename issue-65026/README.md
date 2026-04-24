@@ -27,6 +27,8 @@ Then test:
 |---------|----------|--------|
 | `GET /enum-value?test=my-value` | 200 `"my-value"` | **400 Bad Request** (bug) |
 | `GET /enum-value?test=MyValue` | 200 `"my-value"` | 200 `"my-value"` |
+| `POST /enum-form` with `test=my-value` | 200 `"my-value"` | **400 Bad Request** (bug) |
+| `POST /enum-form` with `test=MyValue` | 200 `"my-value"` | 200 `"my-value"` |
 
 The `.http` file has pre-built requests for both cases.
 

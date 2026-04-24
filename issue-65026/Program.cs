@@ -24,6 +24,11 @@ app.UseHttpsRedirection();
 // Only the PascalCase form (?test=MyValue) actually works.
 app.MapGet("/enum-value", (TestEnum test) => test).WithName("GetValue");
 
+// Same bug with form fields: OpenAPI spec lists kebab-case enum values,
+// but [FromForm] binding uses Enum.TryParse which only recognizes PascalCase.
+app.MapPost("/enum-form", ([Microsoft.AspNetCore.Mvc.FromForm] TestEnum test) => test)
+    .WithName("PostFormValue");
+
 // WORKAROUND (Option C): Use an IParsable<T> wrapper that deserializes via JSON,
 // which honors the configured JsonStringEnumConverter naming policy.
 // Accepts kebab-case values like ?test=my-value as documented in the OpenAPI spec.
