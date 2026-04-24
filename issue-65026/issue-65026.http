@@ -1,0 +1,53 @@
+@HostAddress = http://localhost:5090
+
+# Get the OpenAPI spec - note enum values are in kebab-case
+GET {{HostAddress}}/openapi/v1.json
+Accept: application/json
+
+###
+
+# This uses kebab-case as documented in the OpenAPI spec - returns 400 (BUG)
+GET {{HostAddress}}/enum-query?test=my-value
+Accept: application/json
+
+###
+
+# This uses PascalCase which actually works but doesn't match the spec
+GET {{HostAddress}}/enum-query?test=MyValue
+Accept: application/json
+
+###
+
+# POST with form field using kebab-case as documented in OpenAPI spec - returns 400 (BUG)
+POST {{HostAddress}}/enum-form
+Content-Type: application/x-www-form-urlencoded
+
+test=my-value
+
+###
+
+# POST with form field using PascalCase - works but doesn't match the spec
+POST {{HostAddress}}/enum-form
+Content-Type: application/x-www-form-urlencoded
+
+test=MyValue
+
+###
+
+# GET with enum in path parameter using kebab-case
+GET {{HostAddress}}/enum-path/my-value
+Accept: application/json
+
+###
+
+# GET with enum in header parameter using kebab-case
+GET {{HostAddress}}/enum-header
+Accept: application/json
+X-Test-Enum: my-value
+
+###
+
+# GET with enum in header parameter using PascalCase
+GET {{HostAddress}}/enum-header
+Accept: application/json
+X-Test-Enum: MyValue
