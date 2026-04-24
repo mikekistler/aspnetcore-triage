@@ -38,6 +38,9 @@ app.MapGet("/enum-query-default", ([DefaultValue(TestEnum.MyValue)] TestEnum tes
 // Enum in header
 app.MapGet("/enum-header", ([FromHeader(Name = "X-Test-Enum")] TestEnum test) => test);
 
+// Enum with duplicate underlying values — does schema collapse aliases?
+app.MapGet("/enum-dupes", (DupeEnum test) => test);
+
 app.Run();
 
 enum TestEnum
@@ -45,4 +48,12 @@ enum TestEnum
     TheValue,
     MyValue,
     YourValue,
+}
+
+// Enum where B and C share the same underlying value
+enum DupeEnum
+{
+    ValueA = 0,
+    ValueB = 1,
+    ValueC = 1,
 }

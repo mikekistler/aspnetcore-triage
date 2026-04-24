@@ -51,3 +51,10 @@ X-Test-Enum: my-value
 GET {{HostAddress}}/enum-header
 Accept: application/json
 X-Test-Enum: MyValue
+
+###
+
+# This uses PascalCase which actually works but doesn't match the spec
+GET {{HostAddress}}/enum-dupes?test=ValueC
+Accept: application/json
+
