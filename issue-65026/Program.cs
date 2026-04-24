@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -30,6 +31,9 @@ app.MapPost("/enum-form", ([FromForm] TestEnum test) => test)
 
 // Enum in path parameter
 app.MapGet("/enum-path/{test}", (TestEnum test) => test);
+
+// Enum query parameter with a default value — does the default show kebab-case in the spec?
+app.MapGet("/enum-query-default", ([DefaultValue(TestEnum.MyValue)] TestEnum test = TestEnum.MyValue) => test);
 
 // Enum in header
 app.MapGet("/enum-header", ([FromHeader(Name = "X-Test-Enum")] TestEnum test) => test);
