@@ -41,6 +41,9 @@ app.MapGet("/enum-header", ([FromHeader(Name = "X-Test-Enum")] TestEnum test) =>
 // Enum with duplicate underlying values — does schema collapse aliases?
 app.MapGet("/enum-dupes", (DupeEnum test) => test);
 
+// Enum with out-of-order underlying values — do Enum.GetNames() and schema agree on order?
+app.MapGet("/enum-out-of-order", (OutOfOrderEnum test) => test);
+
 app.Run();
 
 enum TestEnum
@@ -56,4 +59,14 @@ enum DupeEnum
     ValueA = 0,
     ValueB = 1,
     ValueC = 1,
+}
+
+// Enum with values declared out of numeric order
+// Enum.GetNames() returns: Info, Warning, Critical (sorted by value)
+// Does the schema generator use the same order?
+enum OutOfOrderEnum
+{
+    Critical = 3,
+    Warning = 1,
+    Info = 0,
 }

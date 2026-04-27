@@ -58,3 +58,9 @@ X-Test-Enum: MyValue
 GET {{HostAddress}}/enum-dupes?test=ValueC
 Accept: application/json
 
+###
+
+# This uses PascalCase which actually works but doesn't match the spec
+GET {{HostAddress}}/enum-out-of-order?test=Info
+Accept: application/json
+
