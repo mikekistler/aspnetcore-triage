@@ -44,6 +44,8 @@ app.MapGet("/enum-dupes", (DupeEnum test) => test);
 // Enum with out-of-order underlying values — do Enum.GetNames() and schema agree on order?
 app.MapGet("/enum-out-of-order", (OutOfOrderEnum test) => test);
 
+app.MapGet("/weatherforecast", ([DefaultValue(TestEnum.TheValue)] TestEnum anotherValue, TestEnum value = TestEnum.YourValue) => new { anotherValue, value });
+
 app.Run();
 
 enum TestEnum
