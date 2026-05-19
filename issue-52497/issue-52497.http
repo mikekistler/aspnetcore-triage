@@ -1,0 +1,123 @@
+@HostAddress = http://localhost:5292
+
+### Route parameter - exact casing (expect 200)
+GET {{HostAddress}}/hello/Active/world
+Accept: application/json
+
+###
+
+### Route parameter - lowercase (expect 400 - the bug)
+GET {{HostAddress}}/hello/active/world
+Accept: application/json
+
+###
+
+### Route parameter - uppercase (expect 400 - the bug)
+GET {{HostAddress}}/hello/ACTIVE/world
+Accept: application/json
+
+###
+
+### Route parameter - non-enum segments case-insensitive (expect 200)
+GET {{HostAddress}}/HELLO/Active/WORLD
+Accept: application/json
+
+###
+
+### Query parameter - exact casing
+GET {{HostAddress}}/query?status=Active
+Accept: application/json
+
+###
+
+### Query parameter - lowercase
+GET {{HostAddress}}/query?status=active
+Accept: application/json
+
+###
+
+### Query parameter - uppercase
+GET {{HostAddress}}/query?status=ACTIVE
+Accept: application/json
+
+###
+
+### Header parameter - exact casing
+GET {{HostAddress}}/header
+X-Status: Active
+Accept: application/json
+
+###
+
+### Header parameter - lowercase
+GET {{HostAddress}}/header
+X-Status: active
+Accept: application/json
+
+###
+
+### Header parameter - uppercase
+GET {{HostAddress}}/header
+X-Status: ACTIVE
+Accept: application/json
+
+###
+
+### Form parameter - exact casing
+POST {{HostAddress}}/form
+Content-Type: application/x-www-form-urlencoded
+
+status=Active
+
+###
+
+### Form parameter - lowercase
+POST {{HostAddress}}/form
+Content-Type: application/x-www-form-urlencoded
+
+status=active
+
+###
+
+### Form parameter - uppercase
+POST {{HostAddress}}/form
+Content-Type: application/x-www-form-urlencoded
+
+status=ACTIVE
+
+###
+
+### JSON body - exact casing
+POST {{HostAddress}}/body
+Content-Type: application/json
+
+{"name": "test", "status": "Active"}
+
+###
+
+### JSON body - lowercase
+POST {{HostAddress}}/body
+Content-Type: application/json
+
+{"name": "test", "status": "active"}
+
+###
+
+### JSON body - uppercase
+POST {{HostAddress}}/body
+Content-Type: application/json
+
+{"name": "test", "status": "ACTIVE"}
+
+###
+
+### JSON body - numeric value
+POST {{HostAddress}}/body
+Content-Type: application/json
+
+{"name": "test", "status": 1}
+
+###
+
+GET {{HostAddress}}/openapi/v1.json
+Accept: application/json
